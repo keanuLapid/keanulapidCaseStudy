@@ -1,0 +1,49 @@
+﻿@page
+@model keanulapidCaseStudy.Pages.IndexModel
+
+<h2>Online Shopping Cart</h2>
+
+<form method="post">
+    <div>
+        <label>Name:</label>
+        <input type="text" asp-for="ProductName" required />
+    </div>
+    <div>
+        <label>Price:</label>
+        <input type="number" asp-for="ProductPrice" step="0.01" required />
+    </div>
+    <div>
+        <label>Quantity:</label>
+        <input type="number" asp-for="ProductQuantity" required />
+    </div>
+    <div>
+        <label>Product Type:</label>
+        <select asp-for="ProductType">
+            <option value="Perishable">Perishable</option>
+            <option value="NonPerishable">Non-Perishable</option>
+        </select>
+    </div>
+    <div>
+        <label>Expiration Date (if Perishable):</label>
+        <input type="date" asp-for="ExpirationDate" />
+    </div>
+    <button type="submit" asp-page-handler="AddProduct">Add Product</button>
+</form>
+
+<hr />
+
+@if (Model.ShoppingCart.Any())
+{
+    <h3>Shopping Cart</h3>
+    <ul>
+        @foreach (var product in Model.ShoppingCart)
+        {
+            <li>@product.Name - Quantity: @product.Quantity - Total Price: @product.GetTotalPrice() Php</li>
+        }
+    </ul>
+    <h4>Total Cart Price: @Model.CalculateTotalPrice() Php</h4>
+}
+else
+{
+    <p>No products in the cart.</p>
+}
